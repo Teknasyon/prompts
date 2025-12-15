@@ -1,146 +1,182 @@
-## ⚠️ Where are all the prompts gone?
+# Self-Hosting Guide
 
-> **No worries They are still here.** But it become impossible to maintain a monster README file. So now it has its own system. Still free, still open-sourced.
->
-> 🌐 **[View All Prompts on prompts.chat](https://prompts.chat/prompts)**
-> 
-> 🔍 **[View All Prompts synced on GitHub (prompts.csv)](https://github.com/f/awesome-chatgpt-prompts/blob/main/prompts.csv)**
-> 
-> 📊 **[View All Prompts synced on Data Studio on HF (prompts.csv)](https://huggingface.co/datasets/fka/awesome-chatgpt-prompts/viewer?views%5B%5D=train)**
-> 
+## Capabilities
 
-<p align="center">
-  <img width="558" height="148" alt="Screenshot 2025-12-12 at 02 40 52" src="https://github.com/user-attachments/assets/8de2ba4c-5e89-4aae-aecb-32b188fb1bfb" />
-  <br>
-  <small>a.k.a. Awesome ChatGPT Prompts</small>
-</p>
+- **Curated Prompt Library** — Access 100+ high-quality, community-tested prompts for ChatGPT, Claude, Gemini, Llama, Mistral, and other AI models
+- **Discover & Browse** — Explore prompts by categories, tags, or AI-powered semantic search
+- **Create & Share Prompts** — Submit your own prompts with support for text, structured (JSON/YAML), and media-enhanced formats
+- **Version Control** — Track prompt changes with built-in versioning and change request system (similar to PRs)
+- **Personalized Feed** — Subscribe to categories and get a curated feed of prompts matching your interests
+- **Private Prompts** — Keep your prompts private or share them with the community
+- **Voting & Leaderboard** — Upvote prompts and discover the most popular ones via PromptMasters leaderboard
+- **Multi-language Support** — Available in English, Spanish, Japanese, Turkish, and Chinese
 
-<h2 align="center">Sponsors</h3>
+## Benefits
 
-<div align="center">
+- **Unlock AI Potential:** Stop struggling with prompt engineering — use battle-tested prompts from 139k+ GitHub stars community
+- **Save Time:** Copy prompts with one click, customize variables inline, and use them instantly in any AI chat
+- **Community-Driven Quality:** Every prompt is curated and refined by the community through change requests and voting
+- **Self-Hostable:** Deploy your own white-labeled prompt library for your team or organization with customizable branding, themes, and authentication
+- **CC0 Licensed:** All prompts are public domain — use them freely for any purpose, commercial or personal
 
-  <a href="https://clemta.com" align="center" target="_blank">
-    <img height="50" alt="Clemta logo" src="https://clemta.com/wp-content/uploads/2023/03/logo-clemta-com-1.png.webp">
-  </a>
-  <br>
-  <sub>With Clemta, you can run your company from the comfort of your home.</sub>
-<hr>
-  <sub><a href="https://github.com/sponsors/f/sponsorships?sponsor=f&amp;tier_id=529895">Be my sponsor and your logo will be here!</a></sub>
-</div>
+## Getting Started
+
+**Requirements:**
+- **Plan:** Free and open-source (CC0 license)
+- **User Permissions:** No account needed to browse; sign in via GitHub/Google to create & save prompts
+- **Availability:** Generally Available at [prompts.chat](https://prompts.chat)
 
 ---
-[![Awesome](https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)](https://github.com/sindresorhus/awesome)
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/f/awesome-chatgpt-prompts)
 
-Welcome to the "Awesome ChatGPT Prompts" repository! While this collection was originally created for [ChatGPT](https://chat.openai.com/chat), these prompts work great with other AI models like [Claude](https://claude.ai/new), [Gemini](https://gemini.google.com), [Hugging Face Chat](https://hf.co/chat), [Llama](https://meta.ai), [Mistral](https://chat.mistral.ai), and more.
+This guide explains how to deploy **prompts.chat** on your own private server for enhanced privacy and customization.
 
-In this repository, you will find a variety of [prompts](prompts.csv) that can be used with ChatGPT and other AI chat models. We encourage you to [add your own prompts](https://prompts.chat) to the list, and to use AI to help generate new prompts as well. Your contributions to [prompts.chat](https://prompts.chat) will be contributions to this repository automatically.
+## Prerequisites
 
-## Want to deploy your own private prompt library for your team?
+- **Node.js** 18+ 
+- **PostgreSQL** database
+- **npm** or **yarn**
 
-Check out our [Self-Hosting Guide](SELF-HOSTING.md) for instructions on setting up your own instance with **customizable branding, themes, and authentication**.
+## Environment Variables
 
-### Quickstart
+Create a `.env` file based on `.env.example`:
 
 ```bash
-git clone https://github.com/f/awesome-chatgpt-prompts.git
-cd awesome-chatgpt-prompts
-npm install
-npm run db:push
-npm run dev
+# Database
+DATABASE_URL="postgresql://user:password@localhost:5432/prompts"
+
+# Authentication (choose one provider)
+# GitHub OAuth
+AUTH_GITHUB_ID="your-github-client-id"
+AUTH_GITHUB_SECRET="your-github-client-secret"
+
+# Or Google OAuth
+AUTH_GOOGLE_ID="your-google-client-id"
+AUTH_GOOGLE_SECRET="your-google-client-secret"
+
+# NextAuth
+AUTH_SECRET="generate-a-random-secret"
+
+# Optional: AI-powered semantic search
+OPENAI_API_KEY="your-openai-api-key"
 ```
 
-### Private Clone Setup (Recommended for Teams)
+## Installation
 
-For private deployments, use our **interactive setup wizard** to configure your instance with custom branding, disable sponsorship sections, and set up authentication:
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/f/awesome-chatgpt-prompts.git
+   cd awesome-chatgpt-prompts
+   ```
 
-```bash
-git clone https://github.com/f/awesome-chatgpt-prompts.git
-cd awesome-chatgpt-prompts
-npm install
-npm run setup
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Configure your environment**
+   ```bash
+   cp .env.example .env
+   # Edit .env with your database and auth credentials
+   ```
+
+4. **Run database migrations**
+   ```bash
+   npm run db:migrate
+   ```
+
+5. **Seed initial data** (optional)
+   ```bash
+   npm run db:seed
+   ```
+
+6. **Start the development server**
+   ```bash
+   npm run dev
+   ```
+
+7. **Build for production**
+   ```bash
+   npm run build
+   npm run start
+   ```
+
+## Configuration
+
+Customize your instance by editing `prompts.config.ts`:
+
+```typescript
+// Set to true to use your own branding instead of prompts.chat branding
+const useCloneBranding = true;
+
+export default defineConfig({
+  // Branding
+  branding: {
+    name: "Your Prompt Library",
+    logo: "/your-logo.svg",
+    logoDark: "/your-logo-dark.svg",
+    description: "Your custom description",
+  },
+
+  // Theme
+  theme: {
+    radius: "sm",        // "none" | "sm" | "md" | "lg"
+    variant: "default",  // "flat" | "default" | "brutal"
+    colors: {
+      primary: "#6366f1",
+    },
+  },
+
+  // Authentication
+  auth: {
+    provider: "github",  // "credentials" | "github" | "google" | "azure"
+    allowRegistration: true,
+  },
+
+  // Features
+  features: {
+    privatePrompts: true,
+    changeRequests: true,
+    categories: true,
+    tags: true,
+    aiSearch: false,  // Requires OPENAI_API_KEY
+  },
+
+  // Homepage
+  homepage: {
+    useCloneBranding,  // Use your branding on homepage
+    achievements: {
+      enabled: !useCloneBranding,  // Hide prompts.chat achievements
+    },
+    sponsors: {
+      enabled: !useCloneBranding,  // Hide prompts.chat sponsors
+    },
+  },
+
+  // Internationalization
+  i18n: {
+    locales: ["en", "es", "ja", "tr", "zh"],
+    defaultLocale: "en",
+  },
+});
 ```
 
-The setup wizard will guide you through:
-- **Branding** — Set your organization name, logo, and description
-- **Theme** — Choose colors, border radius, and UI style
-- **Authentication** — Configure GitHub, Google, Azure AD, or email/password login
-- **Features** — Enable/disable private prompts, categories, tags, AI search
-- **Languages** — Select supported locales
-- **Sponsors** — Optionally add your own sponsor logos (prompts.chat sponsors are disabled)
+### Clone Branding Mode
 
-After setup, complete the configuration:
+When `useCloneBranding` is set to `true`, the homepage will:
 
-```bash
-# Edit .env with your database and OAuth credentials
-nano .env
+- Display your **branding name** as the hero title
+- Show your **branding description** below the title
+- Use your **logo** as a watermark background instead of the video
+- Hide the "Clone on GitHub" button
+- Hide the achievements section (Forbes, GitHub stars, etc.)
+- Hide the sponsor links and "Become a Sponsor" CTA
 
-# Run database migrations
-npm run db:push
+This is ideal for organizations that want to deploy their own white-labeled prompt library without prompts.chat branding.
 
-# Start development server
-npm run dev
-```
+## Docker Deployment
 
-> 💡 **Tip:** The setup script automatically enables "clone branding mode" which hides prompts.chat branding, achievements, and sponsors from the homepage.
+Coming soon.
 
-We hope you find these prompts useful and have fun exploring AI chat models!
+## Support
 
-**[View on prompts.chat](https://prompts.chat)**
-
-**[View Hugging Face Dataset](https://huggingface.co/datasets/fka/awesome-chatgpt-prompts/)**
----
-
-> ℹ️ **NOTE:** Sometimes, some of the prompts may not be working as you expected
-> or may be rejected by the AI. Please try again, start a new thread, or log out
-> and log back in. If these solutions do not work, please try rewriting the
-> prompt using your own sentences while keeping the instructions same.
-
-### Want to Write Effective Prompts?
-
-I've authored an e-book called **"The Art of ChatGPT Prompting: A Guide to
-Crafting Clear and Effective Prompts"**.
-
-📖 **[Read the e-book](https://fka.gumroad.com/l/art-of-chatgpt-prompting)**
-
-### Want to Learn How to Make Money using ChatGPT Prompts?
-
-I've authored an e-book called **"How to Make Money with ChatGPT: Strategies,
-Tips, and Tactics"**.
-
-📖
-**[Buy the e-book](https://fka.gumroad.com/l/how-to-make-money-with-chatgpt)**
-
-### Want to Learn How to write image prompts for Midjourney AI?
-
-I've authored an e-book called **"The Art of Midjourney AI: A Guide to Creating
-Images from Text"**.
-
-📖
-**[Read the e-book](https://fka.gumroad.com/l/the-art-of-midjourney-ai-guide-to-creating-images-from-text)**
-
----
-
-# Prompts
-
-🔍 **[View All Prompts on GitHub (prompts.csv)](https://github.com/f/awesome-chatgpt-prompts/blob/main/prompts.csv)**
-
-📊 **[View All Prompts as Data Studio on HF (prompts.csv)](https://huggingface.co/datasets/fka/awesome-chatgpt-prompts/viewer?views%5B%5D=train)**
-
-🌐 **[View All Prompts on prompts.chat](https://prompts.chat/prompts)**
-
----
-
-## Contributors 😍
-
-Many thanks to these AI whisperers:
-
-<a href="https://github.com/f/awesome-chatgpt-prompts/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=f/awesome-chatgpt-prompts" />
-</a>
-
-# License
-
-This work is licensed under [CC0 1.0 Universal (Public Domain Dedication)](https://creativecommons.org/publicdomain/zero/1.0/).
-
-You can copy, modify, distribute, and use the prompts freely — even for commercial purposes — without asking permission or giving attribution. All prompts contributed to this repository are released into the public domain.
+For issues and questions, please open a [GitHub Issue](https://github.com/f/awesome-chatgpt-prompts/issues).
