@@ -357,9 +357,9 @@ export const PromptBuilder = forwardRef<PromptBuilderHandle, PromptBuilderProps>
       />
       {/* Desktop: side panel, Mobile: bottom drawer */}
       <div className="fixed z-50 bg-background shadow-lg flex flex-col
-        sm:right-0 sm:left-auto sm:top-12 sm:bottom-auto sm:h-[calc(100vh-3rem)] sm:w-[400px] sm:border-l
-        inset-x-0 bottom-0 h-[70vh] rounded-t-xl sm:rounded-none border-t
-        animate-in slide-in-from-bottom duration-300 sm:animate-none">
+        sm:right-0 sm:top-12 sm:h-[calc(100vh-3rem)] sm:w-[400px] sm:border-l
+        inset-x-0 bottom-0 h-[70vh] rounded-t-xl sm:rounded-none border-t sm:border-t-0
+        animate-in slide-in-from-bottom sm:slide-in-from-right duration-300">
       {/* Header */}
       <div className="flex items-center justify-between px-3 py-1.5 border-b">
         <div className="flex items-center gap-1.5">
